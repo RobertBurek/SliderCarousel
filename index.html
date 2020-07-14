@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Carousel</title>
+<link href="css/myStyle.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+<script type="text/JavaScript" src="js/sliderCarousel.js"></script>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+ 
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#sliderCarousel").SliderCarousel(
+		{
+            reflectionHeight: 50,
+            xPosition: 480,
+            yPosition: 35,
+            leftButton: $('#slider-left-button'),
+            rightButton: $('#slider-right-button'),
+            yRadius:30,
+            reflectionPadding: -1,
+            reflectionOpacity: 0.3,
+            minimumScale: 0.5,
+            speedRotation: 0.20,
+            // border: '1px solid black',
+            widthMax: 240,
+			heightMax: 170
+		}
+	);
+});
+</script>
+</head>
+
+<body>
+
+<div id="slider">
+    <div id = "sliderCarousel">
+        <a href="#1" rel="lightbox"><img class="carousel" src="images/slider/01.png" alt="Website 1" title="Website 1"/></a>
+        <a href="#2" rel="lightbox"><img class="carousel" src="images/slider/02.png" alt="Website 2" title="Website 2"/></a>
+        <a href="#3" rel="lightbox"><img class="carousel" src="images/slider/03.png" alt="Website 3" title="Website 3"/></a>
+        <a href="#4" rel="lightbox"><img class="carousel" src="images/slider/04.png" alt="Website 4" title="Website 4"/></a>
+        <a href="#5" rel="lightbox"><img class="carousel" src="images/slider/05.png" alt="Website 5" title="Website 5"/></a>
+        <a href="#6" rel="lightbox"><img class="carousel" src="images/slider/06.png" alt="Website 6" title="Website 6"/></a>
+        <a href="#7" rel="lightbox"><img class="carousel" src="images/slider/07.png" alt="Website 7" title="Website 7"/></a>
+        <a href="#8" rel="lightbox"><img class="carousel" src="images/slider/08.png" alt="Website 8" title="Website 8"/></a>
+        <a href="#9" rel="lightbox"><img class="carousel" src="images/slider/09.jpg" alt="Website 9" title="Website 9"/></a>
+    </div>
+
+    <div class="center">
+        <a id="slider-left-button" class="nawigacja Lewa"><i class="fas fa-chevron-circle-left"></i></a>
+        <a id="slider-right-button" class="nawigacja Prawa"><i class="fas fa-chevron-circle-right"></i></a>
+    </div>
+</div>
+
+</body>
+</html>
