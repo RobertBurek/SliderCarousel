@@ -28,12 +28,12 @@
 			newReflectionImage.fillRect(0, 0, widthImage, reflectionHeight);
 		} catch(e) {
 			return;
-		}
-	}
+		};
+	};
 
 	let	Item = function(imageInner, options) {
-		this.orgWidth = options.widthMax;
-		this.orgHeight = options.heightMax;
+		this.orginalWidth = options.widthMax;
+		this.orginalHeight = options.heightMax;
 		this.image = imageInner;
 		this.reflection = null;
 		this.imageOK = false;
@@ -41,16 +41,15 @@
 		this.imageOK = true;
 		
 		if (this.options.reflectionHeight > 0) {
-			this.reflection = new Reflection(this.image, this.options.reflectionHeight, this.options.reflectionOpacity, this.orgWidth, this.orgHeight);
-		}
-		$(this.image).css('position','absolute');
+			this.reflection = new Reflection(this.image, this.options.reflectionHeight, this.options.reflectionOpacity, this.orginalWidth, this.orginalHeight);
+		};
+
+		$(this.image).css('position', 'absolute');
 		$(this.image).css('border', options.border);
 	};
 	
 	let ControllerSlider = function(container, images, options) {
-		let	items = []
-		let	funcSin = Math.sin
-		let	funcCos = Math.cos
+		let	items = [];
 		let	contextInterval = this;
 
 		this.controlTimer = 0;
@@ -58,55 +57,42 @@
 		this.xRadius = options.xRadius;
 		this.yRadius = options.yRadius;
 		this.container = container;
-		this.autoTimeRotate = 0;
 		if (options.xRadius === 0) {
-			this.xRadius = ($(container).width()/2.25);
-		}
+			this.xRadius = ($(container).width() / 2.25);
+		};
 		if (options.yRadius === 0) {
-			this.yRadius = ($(container).height()/6.0);
-		}
+			this.yRadius = ($(container).height() / 10.0);
+		};
 
 		this.xCentre = options.xPosition;
 		this.yCentre = options.yPosition;
-		this.rotation = Math.PI/2;
-		this.destRotation = Math.PI/2;
+		this.rotation = Math.PI / 2;
+		this.destRotation = Math.PI / 2;
 		this.delayTime = 25;
 
 		$(container).css({ position:'relative', overflow:'hidden'});
-		$(options.leftButton).css('display','inline');
-		$(options.rightButton).css('display','inline');
+		$(options.leftButton).css('display', 'inline');
+		$(options.rightButton).css('display', 'inline');
 		
-		$(options.leftButton).bind('mouseup',this,function(event) {
+		$(options.leftButton).bind('mouseup', this, function(event) {
 			event.data.rotate(1);
 			return false;
 		});
 
-		$(options.rightButton).bind('mouseup',this,function(event) {
+		$(options.rightButton).bind('mouseup', this, function(event) {
 			event.data.rotate(-1);
 			return false;
 		});
 
 		this.innerWrapper = $(container).wrapInner('<div style="height:100%; width:100%; position:absolute;"/>').children()[0];
 
-		this.go = function() {
-			if(this.controlTimer !== 0) {
-				return;
-			}
-		};
-		
-		this.stop = function() {
-			clearTimeout(this.controlTimer);
-			this.controlTimer = 0;
-		};
-
 		this.rotate = function(towards) {
-			this.destRotation += ( Math.PI / items.length ) * ( 2 * towards);
-			this.go();
+			this.destRotation += (Math.PI / items.length) * (2 * towards);
 		};
 
 		this.updateAll = function() {
 			let	minimumScale = options.minimumScale;
-			let smallRange = (1-minimumScale) * 0.5;
+			let smallRange = (1 - minimumScale) * 0.5;
 			let	x;
 			let	y;
 			let	w;
@@ -130,58 +116,57 @@
 
 			for (let i = 0; i<itemsLen; i++) {
 				item = items[i];
-				sinusValue = funcSin(radians);
+				sinusValue =  Math.sin(radians);
 				scaleImg = ((sinusValue + 1) * smallRange) + minimumScale;
 				
-				x = this.xCentre + (( (funcCos(radians) * this.xRadius) - (item.orgWidth*0.5)) * scaleImg);
-				y = this.yCentre + (( (sinusValue * this.yRadius)  ) * scaleImg);
+				x = this.xCentre + (((Math.cos(radians) * this.xRadius) - (item.orginalWidth*0.5)) * scaleImg);
+				y = this.yCentre + (((sinusValue * this.yRadius)) * scaleImg);
 		
 				if (item.imageOK) {
 					let	img = item.image;
-					w = img.width = item.orgWidth * scaleImg;
-					h = img.height = item.orgHeight * scaleImg;
+					w = img.width = item.orginalWidth * scaleImg;
+					h = img.height = item.orginalHeight * scaleImg;
 					img.style.left = x + 'px' ;
 					img.style.top = y + 'px';
-					img.style.zIndex = "" + (scaleImg * 100)>>0;
-					if (item.reflection !== null)
-					{
+					img.style.zIndex = "" + (scaleImg * 100) >> 0;
+					if (item.reflection !== null) {
 						reflectionHeight = options.reflectionHeight * scaleImg;
 						style = item.reflection.element.style;
 						style.left = x + 'px';
 						style.top = y + h + options.reflectionPadding * scaleImg + 'px';
 						style.width = w + 'px';
 						style.height = reflectionHeight + 'px';
-					}
-				}
+					};
+				};
 				radians += spacing;
-			}
+			};
 			this.innerWrapper.style.display = 'block';
-			this.controlTimer = setTimeout( function() {
+			this.controlTimer = setTimeout(function() {
 				context.updateAll();
 			}, this.delayTime);
 		};
 
 		this.imagesLoaded = function() {
 			for(let i=0; i<images.length; i++) {
-				if ( (images[i].width === undefined) || ( (images[i].complete !== undefined) && (!images[i].complete))) {
+				if ((images[i].width === undefined) || ((images[i].complete !== undefined) && (!images[i].complete))) {
 					return;
-				}
-			}
+				};
+			};
 			for(let i=0; i<images.length; i++) {
-				 items.push( new Item( images[i], options));
-				 $(images[i]).data('itemIndex',i);
-			}
+				 items.push(new Item(images[i], options));
+				 $(images[i]).data('itemIndex', i);
+			};
 			clearInterval(this.timeI);
 			this.updateAll();
 		};
 
-		this.timeI = setInterval( function() {
+		this.timeI = setInterval(function() {
 			contextInterval.imagesLoaded();
 		}, 60);
 	};
 	
 	$.fn.SliderCarousel = function(options) {
-		this.each( function() {
+		this.each(function() {
 			options = $.extend({}, {
 							reflectionHeight: 0,
 							xPosition: 0,
@@ -196,7 +181,7 @@
 							widthMax: 0,
 							heightMax: 0
 			},options);
-			$(this).data('carousel', new ControllerSlider( this, $('.carousel',$(this)), options));
+			$(this).data('carousel', new ControllerSlider(this, $('.carousel', $(this)), options));
 		});
 		return this;
 	};
