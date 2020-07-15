@@ -89,7 +89,7 @@
 		this.innerWrapper = $(container).wrapInner('<div style="height:100%; width:100%; position:absolute;"/>').children()[0];
 
 		this.go = function() {
-			if(this.controlTimer !== 0) { 
+			if(this.controlTimer !== 0) {
 				return;
 			}
 		};

@@ -29,9 +29,19 @@ body{
 	color: #FFC312;
 }
 
+#slider-left-button:hover {
+	color: #f5cb4e;
+	opacity: 0.8;
+}
+
 #slider-right-button { 
 	display: block; 
 	width: 30px; 
 	height: 30px; 
 	color: #FFC312;
+}
+
+#slider-right-button:hover {
+	color: #f5cb4e;
+	opacity: 0.8;
 }
